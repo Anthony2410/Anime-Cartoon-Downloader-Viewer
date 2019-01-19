@@ -26,6 +26,11 @@ def get_headers():
 
 def get_html(*args, **kwargs):
     '''
+    Download a html page's text to memory
+    and return the text or set obj to True to
+    return a bs4 handler contain the text.
+    If javascript needs to be run set js to
+    True when calling this function.
     '''
     try:
         if kwargs.get('js'):
@@ -47,6 +52,9 @@ def get_html(*args, **kwargs):
 
 def get_image(*args):
     '''
+    Download a image to memory given it's
+    url and return a pillow hendler containing
+    the image.
     '''
     try:
         r = requests.get(args[0], headers=get_headers())
@@ -55,8 +63,18 @@ def get_image(*args):
     except Exception as e:
         print(e)
 
+def get_percentage(total, part):
+    '''
+    Get the percentage of how much the part is
+    to total.
+    '''
+    return (int(part) / int(total)) * 100
+
 def download_file(*args, **kwargs):
     '''
+    Download a file given it's url and return
+    the header information for the file to help
+    with tracking download.
     '''
     try:
         r = requests.get(args[0], headers=get_headers(), stream=True)
@@ -65,6 +83,7 @@ def download_file(*args, **kwargs):
                 for chunk in r.iter_content(
                     chunk_size=kwargs.get('chuck_size', 128)):
                     f.write(chunk)
+            return r.headers
     except Exception as e:
         print(e)
 
