@@ -97,6 +97,9 @@ class Root:
         Constructor
         '''
         self.tk = tk.Tk()
+        self.tk.title('Anime Cartoon Manager')
+        self.load_menu()
+        self.load_frames()
     
     def load_menu(self):
         '''
@@ -105,7 +108,7 @@ class Root:
         self.menubar = tk.Menu(self.tk)
 
         # add file menu to main menu
-        self.file_menu = tk.Menu(self.menubar)
+        self.file_menu = tk.Menu(self.menubar, tearoff=False)
         self.file_menu.add_command(label="Quit")
         self.menubar.add_cascade(label='File', menu=self.file_menu)
 
@@ -120,6 +123,8 @@ class Root:
 def main():
     '''
     '''
+    root = Root()
+    root.tk.mainloop()
 
 if __name__ == '__main__':
     main()
