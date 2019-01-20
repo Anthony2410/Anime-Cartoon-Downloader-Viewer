@@ -5,6 +5,7 @@ import requests
 import vlc
 import threading
 import sqlite3
+import shelve
 import tkinter as tk
 from tkinter import ttk
 from tkinter import tix
@@ -87,7 +88,31 @@ def download_file(*args, **kwargs):
     except Exception as e:
         print(e)
 
-
+class SettingsFrame:
+    '''
+    '''
+    def __init__(self, master=None):
+        self.root = master
+        self.frame = ttk.Frame(master)
+        self.frame.grid(row=0, column=0, sticky='nesw')
+        # Load frame components.
+        self.load_frames()
+        self.load_widgets()
+    
+    def load_widgets(self):
+        '''
+        '''
+    
+        self.label = ttk.Label(
+            self.frame,
+            text='Settings')
+        self.label.grid(row=0, column=0, sticky='we')
+        
+    
+    def load_frames(self):
+        '''
+        '''
+        
 
 class Root:
     '''
@@ -98,6 +123,7 @@ class Root:
         '''
         self.tk = tk.Tk()
         self.tk.title('Anime Cartoon Manager')
+        # Load application components.
         self.load_menu()
         self.load_frames()
     
@@ -109,8 +135,13 @@ class Root:
 
         # add file menu to main menu
         self.file_menu = tk.Menu(self.menubar, tearoff=False)
+        self.file_menu.add_command(
+            label="Settings",
+            command=self.load_settings_frame)
         self.file_menu.add_command(label="Quit")
-        self.menubar.add_cascade(label='File', menu=self.file_menu)
+        self.menubar.add_cascade(
+            label='File',
+            menu=self.file_menu)
 
         # Add Main menu to frame.
         self.tk.config(menu=self.menubar)
@@ -118,6 +149,13 @@ class Root:
     def load_frames(self):
         '''
         '''
+    
+    def load_settings_frame(self, *args):
+        '''
+        Load the frame containing the application settings.
+        '''
+        self.settings_frame = SettingsFrame(self.tk)
+        self.settings_frame.frame.lift()
 
 
 def main():
